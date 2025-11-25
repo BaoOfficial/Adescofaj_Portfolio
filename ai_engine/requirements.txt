@@ -1,0 +1,27 @@
+# FastAPI and server
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# OpenAI and LangChain
+openai==1.10.0
+langchain==1.1.0
+langchain-openai==0.0.5
+langchain-community==0.4.1
+langchain-core==1.1.0
+langchain-text-splitters==0.3.4
+
+# Vector store and embeddings
+chromadb==0.4.22
+tiktoken==0.5.2
+
+# Utilities
+python-dotenv==1.0.0
+requests==2.31.0
+
+# Additional dependencies
+numpy==1.26.2
+scikit-learn==1.7.2
+pandas==2.3.3

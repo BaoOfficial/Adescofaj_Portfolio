@@ -1,0 +1,174 @@
+import { ExternalLink, Github, Camera } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { useState } from 'react';
+
+const ProjectsSection = () => {
+  const [showAll, setShowAll] = useState(false);
+  const [imageErrors, setImageErrors] = useState({});
+
+  const projects = [
+    {
+      title: "Customer Segmentation",
+      description: "Performed customer segmentation using K-Means clustering to identify behavioral patterns and optimize marketing strategies.",
+      image: "https://github.com/user-attachments/assets/d31f134b-d17c-442b-ba51-2432702f2f5f",
+      technologies: ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Scikit-learn"],
+      github: "https://github.com/adescofaj/Customer-Segmentation",
+    },
+    {
+      title: "Heart Disease Prediction",
+      description: "Developed a predictive model using machine learning algorithms to assess heart disease risk based on clinical data.",
+      image: "https://github.com/user-attachments/assets/ce52af51-3e6f-4f90-90f9-2ce1e09c4f06",
+      technologies: ["Python", "Scikit-learn", "Logistic Regression", "Matplotlib", "NumPy"],
+      github: "https://github.com/adescofaj/Heart-Disease-Prediction",
+    },
+    {
+      title: "Python Coding Assistant",
+      description: "An AI-powered coding assistant that provides explanations, debugging tips, and solutions to Python codes.",
+      image: "https://github.com/user-attachments/assets/721ebc6a-67ce-431f-b7c1-00250856c61a",
+      technologies: ["Python", "LangChain", "LangGraph", "OpenAI API", "FastAPI"],
+      github: "https://github.com/adescofaj/Python-Coding-Assistant",
+      demo: "https://drive.google.com/file/d/1qDmikowBdmonZ5CRaB4M-KW5BZcdGdvi/view?usp=drive_link"
+    },
+    {
+      title: "Research Summarizer",
+      description: "Built an NLP-based research summarizer that uses large language models to extract and condense academic papers.",
+      image: "https://github.com/user-attachments/assets/8e511f8c-a10c-4027-8525-07e49cd37f5b",
+      technologies: ["Python", "FastAPI", "Pydantic", "LangChain", "LangGraph", "OpenAI API"],
+      github: "https://github.com/adescofaj/Research-Summarizer",
+      demo: "https://drive.google.com/file/d/1aecouc1ZpdDfwNOJaCfp8RWVoocL1N85/view?usp=drive_link"
+    },
+    {
+      title: "Tech Training Analytics",
+      description: "Developed an end-to-end data analytics workflow for a corporate training platform.",
+      image: "https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?w=500&h=300&fit=crop",
+      technologies: ["MySQL", "MySQL Workbench"],
+      github: "https://github.com/adescofaj/Tech-Training-Analytics",
+    },
+    {
+      title: "Ever Greenery Hospital Report",
+      description: "Designed an interactive Power BI dashboard to visualize hospital performance metrics and patient admissions.",
+      image: "https://images.unsplash.com/photo-1580281657527-47d8c3eafc7b?w=500&h=300&fit=crop",
+      technologies: ["Power BI", "Data Modeling", "DAX", "Visualization"],
+      dashboard: "https://app.fabric.microsoft.com/view?r=eyJrIjoiY2QwZDA0MzItMjJkMy00NDI2LWI2Y2ItYTZjYzY4NzU3MzUwIiwidCI6ImFlNmEwMjQwLTRkMmUtNDI4My1hZjFkLWI0MDZkNDg4MDg0YyIsImMiOjh9"
+    },
+    {
+      title: "Juric Analysis",
+      description: "Created a Power BI dashboard for judicial case analytics, offering insights into case distribution and outcomes.",
+      image: "https://images.unsplash.com/photo-1581092334651-ddf26d9a0c7b?w=500&h=300&fit=crop",
+      technologies: ["Power BI", "Data Transformation", "DAX", "Report Automation"],
+      dashboard: "https://app.powerbi.com/view?r=eyJrIjoiMjk0YTlmMDUtM2YyMi00ZDM2LThjMzEtY2MxNzAxMmUyZWQ3IiwidCI6ImFlNmEwMjQwLTRkMmUtNDI4My1hZjFkLWI0MDZkNDg4MDg0YyIsImMiOjh9"
+    }
+  ];
+
+  const handleImageError = (title) => {
+    setImageErrors(prev => ({ ...prev, [title]: true }));
+  };
+
+  const displayedProjects = showAll ? projects : projects.slice(0, 6);
+
+  return (
+    <section id="projects" className="py-20 bg-slate-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold mb-4 text-white">
+            Featured <span className="text-cyan-400">Projects</span>
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full mb-6"></div>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            Explore my portfolio of data science projects showcasing machine learning, AI, and analytics solutions.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {displayedProjects.map((project, index) => (
+            <Card
+              key={project.title}
+              className="bg-slate-800 border border-slate-700 overflow-hidden group hover:border-cyan-400/50 transition-all duration-300"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <div className="relative overflow-hidden bg-slate-700 h-48 flex items-center justify-center">
+                {imageErrors[project.title] ? (
+                  <div className="flex flex-col items-center justify-center w-full h-full text-gray-400">
+                    <Camera className="w-12 h-12 mb-2 opacity-50" />
+                    <span className="text-sm">{project.title}</span>
+                  </div>
+                ) : (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    onError={() => handleImageError(project.title)}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                )}
+              </div>
+
+              <CardHeader>
+                <CardTitle className="text-xl text-white group-hover:text-cyan-400 transition-colors duration-200">
+                  {project.title}
+                </CardTitle>
+                <CardDescription className="text-gray-400">
+                  {project.description}
+                </CardDescription>
+              </CardHeader>
+
+              <CardContent className="space-y-4">
+                <div className="flex flex-wrap gap-2">
+                  {project.technologies.map((tech) => (
+                    <Badge
+                      key={tech}
+                      className="text-xs border border-cyan-400/30 bg-cyan-400/10 text-cyan-300"
+                    >
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
+
+                <div className="flex gap-2">
+                  {project.github && (
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex-1">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full border-slate-600 hover:bg-slate-700 text-gray-300"
+                      >
+                        <Github className="w-4 h-4 mr-2" />
+                        Code
+                      </Button>
+                    </a>
+                  )}
+
+                  {(project.demo || project.dashboard) && (
+                    <a
+                      href={project.demo || project.dashboard}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1"
+                    >
+                      <Button size="sm" className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-slate-900">
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        {project.dashboard ? "Dashboard" : "Demo"}
+                      </Button>
+                    </a>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Button
+            onClick={() => setShowAll(!showAll)}
+            className="border border-cyan-400/30 bg-transparent hover:bg-cyan-400/10 text-cyan-400"
+          >
+            {showAll ? "Show Less" : "Show More"}
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ProjectsSection;
