@@ -33,7 +33,10 @@ const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      // Call the FastAPI backend
+      // Call the FastAPI backend (with extended timeout for Render cold starts)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+
       const response = await fetch(`${API_BASE_URL}/chat`, {
         method: 'POST',
         headers: {
@@ -42,8 +45,11 @@ const Chatbot = () => {
         body: JSON.stringify({
           message: userMessage,
           conversation_id: conversationId
-        })
+        }),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`API error: ${response.status}`);
@@ -61,8 +67,12 @@ const Chatbot = () => {
     } catch (error) {
       console.error('Error fetching chatbot response:', error);
       // Fallback error message
+      const errorMessage = error.name === 'AbortError'
+        ? "The request is taking longer than expected. The backend may be starting up (this can take 30-60 seconds on first use). Please try again in a moment."
+        : "I apologize, but I'm having trouble connecting right now. Please try again in a moment, or contact Amirlahi directly through the contact form.";
+
       setMessages(prev => [...prev, {
-        text: "I apologize, but I'm having trouble connecting right now. Please try again later or contact Amirlahi directly through the contact form.",
+        text: errorMessage,
         isBot: true
       }]);
     } finally {
