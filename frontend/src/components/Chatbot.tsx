@@ -17,7 +17,7 @@ const Chatbot = () => {
   ]);
   const [inputValue, setInputValue] = useState('');
 
-  const API_BASE_URL = 'http://localhost:8000/api';
+  const API_BASE_URL = 'https://amirlahi-backend.onrender.com/api';
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
