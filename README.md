@@ -59,31 +59,31 @@ This is a modern, full-stack portfolio application that combines a sleek React f
 ### System Architecture & Request Flow
 
 ```mermaid
-graph TD
-    A[User Browser] -->|User types message| B[React Frontend<br/>Port 8080]
-    B -->|POST /api/chat<br/>{message, conversation_id}| C[FastAPI Backend<br/>Port 8000]
+flowchart TD
+    A[User Browser] -->|User types message| B[React Frontend - Port 8080]
+    B -->|POST /api/chat| C[FastAPI Backend - Port 8000]
 
-    C -->|1. Retrieve| D[Conversation Memory<br/>Last 5 exchanges]
+    C -->|1. Retrieve| D[Conversation Memory]
 
     C -->|2. Query| E[Hybrid Search System]
 
-    E -->|60% weight| F[ChromaDB<br/>Semantic Search<br/>Vector Similarity]
-    E -->|40% weight| G[BM25 Algorithm<br/>Keyword Search]
+    E -->|60% weight| F[ChromaDB Semantic Search]
+    E -->|40% weight| G[BM25 Keyword Search]
 
-    F --> H[Ensemble Retriever<br/>Top-5 Results]
+    F --> H[Ensemble Retriever - Top 5 Results]
     G --> H
 
-    H -->|3. Build Context| I[Context Assembly<br/>Documents + History + Query]
+    H -->|3. Build Context| I[Context Assembly]
     D -->|Add history| I
 
-    I -->|4. Generate| J[OpenAI API<br/>GPT-3.5-turbo]
+    I -->|4. Generate| J[OpenAI GPT-3.5-turbo]
 
-    J -->|5. Response| K[RAG Service<br/>Store Conversation]
+    J -->|5. Response| K[RAG Service]
 
-    K -->|{response, sources, conversation_id}| B
+    K -->|Return response with sources| B
     B -->|Display| A
 
-    F -.->|Persistent Storage| L[(ChromaDB<br/>Vector Store<br/>250+ Documents)]
+    F -.->|Persistent Storage| L[(ChromaDB Vector Store)]
 
     style A fill:#e1f5ff
     style B fill:#b3d9ff
